@@ -1,10 +1,10 @@
-type Middleware<T> = (curr: T, future: T) => boolean
+type Middleware<T> = (proxy: T, value: T) => T
 
 export default class<T> {
     #value;
     #proxy = $state<T>();
-    #onGetMW: Middleware<T> = (e) => true;
-    #onSetMW: Middleware<T> = (e) => true;
+    #onGetMW: Middleware<T> = (proxy, value) => value;
+    #onSetMW: Middleware<T> = (proxy, value) => proxy;
 
     constructor(initial: T) {
         this.#value = initial;
@@ -20,10 +20,7 @@ export default class<T> {
     }
 
     get value() {        
-        if (this.#onGetMW(this.#proxy as T, this.#value as T)) {
-            return this.#value as T;
-        }
-        return this.#proxy as T;
+        return this.#onGetMW(this.#proxy as T, this.#value as T);
     }
                                                                                                                                                                                                                                                              
     get proxy() {        
@@ -32,9 +29,7 @@ export default class<T> {
 
     set proxy(proxy: T) {
         this.#proxy = proxy;
-        if (this.#onSetMW(this.#proxy as T, this.#value as T)) {
-            this.#value = this.#proxy;
-        }
+        this.#value = this.#onSetMW(this.#proxy as T, this.#value as T);
     }
 
 }
