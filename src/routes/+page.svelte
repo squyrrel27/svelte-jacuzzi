@@ -3,14 +3,13 @@
 
 	const ctx = $state(new SpaContext());
 	const p1 = new SpaProxy(0);
-	
+
 	let proxied = $state(true);
 
 	p1.onSet((proxy: number, value: number) => {
-		console.log (proxy, value);
-		return proxy - (proxy % 10)
+		console.log(proxy, value);
+		return proxy - (proxy % 10);
 	});
-
 
 	p1.onGet((proxy: number, value: number) => {
 		return proxied ? value : proxy;
@@ -20,11 +19,10 @@
 
 	ctx.addRunner(() => {
 		console.log('hello world', ctx.values.count);
-        if ((ctx.values.count as number) > 10) {
-            console.log("we gettin' large");
-        }
+		if ((ctx.values.count as number) > 10) {
+			console.log("we gettin' large");
+		}
 	});
-
 </script>
 
 <div>
@@ -40,12 +38,11 @@
 -->
 	<div>
 		<button onclick={() => console.log(p1.proxy)}>{p1.proxy}</button>
-		<button onclick={() => p1.proxy -= 1}>-</button>
-		<button onclick={() => p1.proxy += 1}>+</button>
-		<button onclick={() => p1.proxy -= 10}>{p1.value}</button>
-		<input type="checkbox" bind:checked={proxied}/>Proxied?
-	</div>	
-
+		<button onclick={() => (p1.proxy -= 1)}>-</button>
+		<button onclick={() => (p1.proxy += 1)}>+</button>
+		<button onclick={() => (p1.proxy -= 10)}>{p1.value}</button>
+		<input type="checkbox" bind:checked={proxied} />Proxied?
+	</div>
 </div>
 
 <style>

@@ -2,19 +2,18 @@ type Runner = () => void;
 type Primitive = number;
 
 export default class {
-    runners: Runner[];
-    values: { [key: string]: Primitive } = $state({});
+	runners: Runner[];
+	values: { [key: string]: Primitive } = $state({});
 
-    constructor() {
-        this.runners = [];
-    }
+	constructor() {
+		this.runners = [];
+	}
 
-    addRunner(runner: any) {
-        this.runners.push(runner);
-    }
+	addRunner(runner: any) {
+		this.runners.push(runner);
+	}
 
-    run() {
-        this.runners.forEach((e) => e())
-    }
-
+	run() {
+		this.runners.forEach((e) => e());
+	}
 }
